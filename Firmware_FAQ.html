@@ -1,0 +1,639 @@
+<html>
+<head>
+<title>The DVD-ROM Firmware Flashing FAQ / HOWTO</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<body text="#919eff" oldcolor="#040773" bgcolor="#000000" link="#ccccdd" vlink="#888899" alink="#ff0000">
+<font face="Verdana, Arial, Helvetica, sans-serif" size=2>
+<h2>
+<center><i>The DVD-ROM Firmware Flashing FAQ / HOWTO</i><p></center>
+</h2><p>
+
+<center><h3>v0.32 - 2002.01.11</h3></center><p>
+<br>
+This document is far from being finished at this stage.<br>
+The HOWTO section should be complete enough to help most of you out however.<p>
+<b><a href=#HOWTO>GO TO THE HOWTO SECTION OF THIS DOCUMENT.</a></b>
+<p>
+<br>
+<p>
+<br>
+
+<h4>[STILL TO DO]</h4>
+- Complete<br>
+- More examples<br>
+- The index is not accurate for sections >= 2<br>
+- Cehck the ttypos<br>
+- Kick the ass of this laziness of mine!!!
+<p>
+
+<font color=#80c327 size="3">
+<b>0.1 Scope of this document<p></b></font>
+
+The aim of this document IS:<br>
+- to help people bypassing region protection when using a DVD-ROM drive with a software player.
+<p>
+The aim of this document IS NOT:<br>
+- to explain how to bypass region protection for out of the box TV DVD players<br>
+- to substitute to DVD drives manufacturer's help on how to flash firmwares<br>
+- to help people copying ("ripping") DVDs or give advice on anything else but DVD region protection 
+in DVD-ROM drives<br>
+<p>
+
+<font color=#80c327 size="3">
+<b>0.2 Disclaimer<p></b></font>
+
+Use at your own risks blurb.<br>
+Flashing firmware is not a trivial operation. You should understand and assume the risks you are
+taking when flashing a firmware<br>
+<p>
+
+<font color=#80c327 size="3">
+<b>0.3 Index<p></b></font>
+
+1 About region protection<p>
+
+1.1 What is Region protection?<br>
+1.2 How does region protection apply to a DVD medium?<br>
+1.3 Are all DVD containing video content region protected?<br>
+1.4 How can I find out if there is a region on a DVD, and what it is set to?<br>
+1.5 How does region protection apply to my DVD drive?<br>
+1.6 How does region protection apply to my Operating System?<br>
+1.7 How does region protection apply to my Software DVD player?<br>
+1.8 What is RPC-1? What is RPC-2<br>
+1.9 How do I know if my drive is region free (RPC-1) or Region locked (RPC-2)?<br>
+1.8 Do All DVDs have a region?<br>
+1.9 Are there other protections on DVDs? What about CSS? What about RCE?<br>
+1.10 Will a region free DVD drive allow me to rip movies more easily?<br>
+1.10 Why should I be against region protection?<br>
+1.11 Where can I find additionnal resources about these topics?<br>
+<p>
+
+2 About the firmware<p>
+
+2.1 What is a firmware?<br>
+2.2 Do all DVD-ROM drives use a firmware?<br> 
+2.3 What has firmware to do with region protection?<br>
+2.4 What is a region free, "patched", or RPC-1 firmware?<br>
+2.5 How do I know if a region free firmware exists for my drive?<br>
+2.6 What should I do if a region free firmware does not exist for my drive?<br>
+2.7 What is firmware flashing?<br>
+2.8 Is it dangerous to flash a firmware?<br>
+2.9 Can I backup an existing firmware?<br>
+2.10 What is a firmware revision? Why is it interesting to have the latest revision?<br>
+2.11 Do I need to flash the manufacturer's x.yz firmware before I flash the region free x.yz firmware?<br>
+2.12 Additional resources<br>
+<p>
+
+
+3 Flashing the firmware<p>
+
+3.1 What do I need to flash the firmware?<br>
+3.2 Where can I get the region free firmware?<br>
+3.3 Where can I get the flashing utility?<br>
+3.4 How can I identify my drives parameters?<br>
+3.5 What changes to my hardware should I make before I flash?<br>
+3.5 How can I get a DOS/Windows bootdisk?<br>
+3.6 How can I find the other parameters?<br>
+3.7 I'm still unsure. What should I do?<br>
+go ahead. There's little chance that you will cause any harm
+3.8 OK, I'm ready to flash. Is there something else I should know before I go ahead?<br>
+timings, a very stable system
+<p>
+
+4 Troubleshooting<p>
+
+4.1 I have flashed the firmware, but it doesn't work! What shoulmd I do?<br>
+don't panic. Identify the problem first
+4.2 The flashing process didn't complete<br>
+- cancel. run it again. hot reboot. run it again
+4.3 Flashing did complete but my drive is no longer recognised when I boot<br>
+4.4 My drive is recognised during boot, but not by driveinfo/CDVDinfo<br>
+4.5 My drive is recognised by driveinfo/CDVDinfo, but it says it is still region protected<br>
+4.6 Driveinfo's OK, but my software player/OS says it is region protected<br>
+4.7 Driveinfo's OK, software player & DVD Genie OK, but DVDs won't play<br>
+bad firmware...
+4.8 No, my problem does not appear in the list here<br>
+post a message in the forum
+4.9 Additional resources<br>
+<p>
+
+5 Advanced tips<p>
+
+5.1 Do I really need a bootdisk?<br>
+5.2 Do I really need to have my drive as primary slave (IDE)?<br>
+5.3 Do I really need to disconnect other drives?<br>
+<p> 
+
+6 Glossary<p>
+
+<p>
+
+<p><br>
+<font color="#80c327"><h4>1 ABOUT REGION PROTECTION</h4></font>
+
+<font color="#80c327"><h5>1.1 What is region protection?</h5></font>
+
+When the movie industrie and hardware manufacturers first came out with the DVD [Digital Versatile Disc / 
+Digital Video Disc] specifications, they established it as an universal medium, and there were no region definition settings at all.<br>
+It's only 1 or 2 months before the new DVD medium was about to be made available to the public that the MPAA [Motion Picture Association of America] forced
+manufacturers to introduce region settings. The aim was to prevent DVD produced in one region (mainly the US) 
+from being played in other regions (mainly the rest of the world).<br>
+This is where the infamous region encoding and region settings were introduced. From then on, the world was divided
+in 6 so called "regions" and movie producers restricted the possibility of a DVD from one region to be
+played in another.
+The region separation of the world is given in the picture below<p>
+
+[insert a pic]<p>
+
+To know in which region you are according to your country, you can also have a look at the following link<p>
+
+[insert a link to a list as well]<p>
+
+Now, this region protection will apply to 3
+
+<font color="#80c327"><h5>1.2 How does region protection apply to a DVD medium?</h5></font><br>
+
+The DVD medium is the physical 12 cm disk that holds the actual data to be read.<br>
+This can come as a DVD-ROM (a movie that you buy from a retailer is a DVD-ROM, and so is a video game on DVD or a DVD-audio), a DVD-R, a DVD-RW, a DVD+RW or whatever new format was derived from the orginal DVD specs [giving a link to the specs would actually be fine]...<p>
+
+So far, only DVD media that contain video content do implement (or not) region protection.<br>
+Usually, those are also the DVD media on which you will find a VIDEO_TS directory containing .VOB [Video OBject] and .IFO [???] files. [could Audio-DVD's have region settings as well?]<br>
+
+<font color="#80c327"><h5>1.3 Are all DVD containing video content region protected?</h5></font>
+
+Almost every theater movie for which a DVD is released will be region protected.<br>
+On the other hand most, musical video DVD's don't have any region settings at all.<br>
+The remaining bulk of video DVD's (like TV shows or documentaries) will depend.<p>
+
+Region settings of a DVD are actually applied depending on wether a delay orginaly existed for the original content to appear in the different regions of the world.<br>
+This controversial delaying mechanism will not be detailled in this document.
+
+<font color="#80c327"><h5>1.4 How can I find out if there is a region on a DVD, and what it is set to?</h5></font>
+
+On a video DVD, the region (or zone) is usually indicated by a small logo, at the back or on the side of the box, representing the earth with a region number (1, 2, 3...) printed on it.<br>
+Every region protected DVD is supposed to have such an indication on its sleeve.<p>
+ 
+A non region protected DVD will either have no logo, or the same little earth logo, with the word 'ALL' printed on it instead of the region.<p>
+
+If you are unable to find that oout before hand, your DVD player will usually be able to display some information regarding the actual region of the DVD medium (but then it might be too late!)
+
+<font color="#80c327"><h5>1.5 How does region protection apply to my DVD drive?</h5></font><br>
+<font color="#80c327"><h5>1.6 How does region protection apply to my Operating System?</h5></font><br>
+<font color="#80c327"><h5>1.7 How does region protection apply to my Software DVD player?</h5></font><br>
+
+<font color="#80c327"><h5>1.8 What is RPC-1? What is RPC-2?</h5></font>
+Region Playback Control<br>
+[insert a link or image to zone def]<br>
+[To Be Completed]
+
+<font color="#80c327"><h5>1.9 How do I know wether my drive is RPC-1 / RPC-2?</h5></font>
+
+[To Be Completed]
+
+<p><br>
+
+<font color="#80c327"><h4>2. ABOUT DVD FIRMWARE</h5></font>
+
+<font color="#80c327"><h5>2.1 What is a firmware?</h5></font>
+
+[To Be Completed]
+
+<font color="#80c327"><h5>2.2 What has firmware to do with RPC-1?</h5></font>
+
+[To Be Completed]
+
+<font color="#80c327"><h5>2.3 Does having an RPC-1 drive allow me to rip movies more easily?</h5></font>
+
+No. RPC-1 has nothing to do with CSS [put the links to DeCSS here]<br>
+[To Be Completed]
+
+<font color="#80c327"><h5>2.4 What is the difference with region free/etc drive?</h5></font>
+
+[To Be Completed]
+
+<font color="#80c327"><h5>2.5 My firmware is not patched what do I do?</h4></font>
+
+[To Be Completed]
+
+<font color="#80c327"><h5>2.6 Why should I upgrade to RPC-1?</h5></font>
+
+[To Be Completed]
+
+<font color="#80c327"><h5>2.7 What is RCE?</h5></font>
+
+[To Be Completed]
+
+<font color="#80c327"><h5>2.8 Can I read RCE DVDs with an RPC-1 drive?</h5></font>
+
+[To Be Completed]
+
+<font color="#80c327"><h5>2.9 Can I flash firmware rev x.xx over y.yy?</h5></font>
+
+[To Be Completed]
+
+<font color="#80c327"><h5>2.10 Can I backup my existing firmware?</h5></font>
+
+[To Be Completed]
+
+<font color="#80c327"><h5>2.11 How many times can I flash a firmware?</h5></font>
+
+About 100 times [To Be Completed]
+
+<font color="#80c327"><h5>2.12 Can firmwares contain a virus?</h5></font>
+
+In short: no![To Be Completed]
+
+
+
+<p><br>
+<a name="HOWTO"></a>
+<p><br>
+<font color="#80c327"><h4>3 THE FIRMWARE FLASHING HOWTO</h4></font>
+
+The steps below list how to flash a DVD-ROM firmware in a DOS or Windows environment on a PC.<br>
+Other systems (like Mac) or OSes (like Linux) are not be covered here.<br>
+This HOWTO was written essentially to answer the single following question:<p>
+
+<b>"HOW DO I DO TO FLASH MY DVD DRIVE?"</b>,<p>
+
+no more, no less.<p>
+
+The operation of flashing a drive is also often called a <b>Firmware Upgrade</b><br>
+If you follow these steps carefully, you shouldn't have much trouble flashing your drive properly, <b>BUT</b>:<p>
+<b>[DISCLAIMER]</b><br>
+The author takes no liability to whatever happens to yourself or your DVD drive while following this guide.
+Like everything in life, flashing a firmware is a dangerous operation (who knows, a part of the ceiling might fall on your head during the process). So please, check the ceiling before flashing.<p>
+
+<font color="#80c327"><h5>3.1 What should you know before you attempt to flash?</h5></font>
+
+Flashing a firmware is not a trivial operation.<br>
+If you don't do it properly, you might render your drive completely inoperable so please take the time to read the following carefuly.<p>
+
+The fact that flashing a firmware might be hazardous stands in the following reason:<br>
+When you flash your DVD drive's firmware, you are actually re-writing the memory that contains the instruction which tell the drive how it should executes its different tasks, like  playing a CD Audio, reading a DVD movie or ejecting the disk.<p>
+Thus if the flashing doesn't operate properly, your drive will no longer be able to perform these tasks.</b>
+Moreover, unlike what happens when your operating system goes bezerk (you just reinstall it), as a firmware often also holds the routines that tell how it should rewrite itself or how to let the computer know that there is a DVD unit in the system, 
+if those routines get corrupted, you won't be able to write the flash memory (the firmware) ever again!</b><br> 
+When this dreaded nightmare happens (and it <b>can</b> happen), you usually end up with a quite expensive but absolutely useless piece of hardware!<p>
+
+<b>So, how can you avoid ending up with a corrupted firmware?</b><p>
+
+- First, make sure you flash the proper firmware.<br>
+If you have doubts about it, don't try to flash until you're sure that it really applies to your drive (see sections <b>3.1.2</b> to <b>3.1.4</b>)<br>
+A common mistake is to flash a firmware that was made for another model, close but not the same, from the same manufacturer.
+If the manufacturer didn't do its job properly, you will be able to flash the firmware, and then it will be too late.<br>
+Flashing an improper firmware is just like making an hospital patient breathe carbon dioxyde instead of oxygen. You won't notice the difference until it's too late.<p>
+
+- Don't attempt to flash a firmware if you know that your power supply is not stable, or during a storm. <b>A power failure during a flashing operation is lethal!</b><p>
+
+- Don't attempt to flash a firmware if your PC is unstable (i.e. freezes or crashes without warning. Note that I'm not talking abour Windows crashes, which are quite normal)!<p>
+
+- For the same reason, you shouldn't attempt to flash on an overclocked system. If it is the case, set the CPU frequency back to normal prior to flashing.<p>
+
+- Floppy disks are <b>extremely</b> unreliable (Why are we still using those antiquities?).<br>
+Whatever the constructor may say, <b>NEVER</b> put a firmware file onto a floppy, but access it from a Hard Disk partition instead.<br>
+Don't take any chance to flash a corrupted file.
+
+<font color="#80c327"><h5>3.1 What do you need before flashing?</h5></font>
+
+You will find hereafter the <b>REQUIRED</b> tools that you <b>MUST</b> have <b>BEFORE</b> attempting to flash!!! (Was I clear enough? I see one at the back who seem to be sleeping...).
+Don't <b>even</b> attempt to find help if you don't have those.
+
+<font color="#80c327"><h5>3.1.1. Tools you must have before you download the firmware:</h5></font>
+
+<h5>3.1.1.1 CDVDInfo / DriveInfo</h5>
+You MUST HAVE either <a href="./cdvdinfo.zip">CDVDInfo</a> (most recommanded) or <a href="">DriveInfo</a> (or any equivalent program) and make sure they run fine before you start.<br>
+Both these programs will tell you the manufacturer's identification information, and the current firmware revision and region information of your DVD Unit. Those tools are definitely a <b>MUST HAVE</b>.<br>
+Please note that you will need to install the <a href="./aspi32v4.60.zip">Adaptec ASPI32 layer for Windows</a> before you can run any of those programs.[Is it true for DriveInfo though? If not, is it fooled by DVD Region Killer???]<p>
+
+If your goal is to turn your drive from <a href="#RPC">RPC-2</a> (region protected) into <a href="#RPC">RPC-1</a> (region free), then once one of these tools tells you that your drive has no region, you work with the firmware is ended ;)<p>
+
+But don't even attempt to ask for help if you haven't looked at what these programs report, because this is the first thing anyone will ask you.<p>
+
+<h5>3.1.1.2 A Windows DOS Bootdisk, or the <i>"Firmware Flashing Bootdisk"</i></h5>
+
+Unless a Windows or other O/S upgrade tool exists (And if they exist, it is recommanded that you use these instead. See section 3.1.5), you will need to be able to boot in (Windows') DOS mode.<br>
+Please note that booting in DOS mode is <b>NOT</b> equivalent to opening a DOS window (or command prompt) in Windows!<p>
+
+To do that, you MUST either:<br>
+- Use a DOS > 6.0 boot disk (not recommanded, because they are getting really obsolete)<br>
+- Use a Windows 95 Boot disk (if you have the choice, use 98 or Me instead<br>
+- Use a Windows 98 Boot disk<br>
+- Use a Windows Millenium Edition (a.k.a. Me) Boot disk (this is the Bootdisk of choice)<br>
+- Be able to boot one of these systems in DOS mode using the F8 key for instance.<p>
+   
+WILL NOT WORK:<br>
+- Using a DOS window (or command prompt) from <b>within</b> Windows (whatever Windows version you are using)<br>
+- Using a Windows NT boot disk<br>
+- Using a Windows 2000 boot disk<br>
+- Using a Windows XP boot disk<p>
+
+The bootdisk can be either a floppy or a bootable CD-ROM.<a name="BOOTDISK"></a><p>
+ 
+<b><u>The Firmware Flashing Bootdisk</u></b><p>
+If you don't know how to create a Windows DOS boot disk, you can download the recommanded <i>"Firmware Flashing Bootdisk"</i> as a <a href="dvd-boot.exe">Floppy Image</a> or a <a href="boot_iso.zip">Bootable CD ISO Image</a>.<br>
+It is a Windows Millenium DOS bootdisk fitted with the additional utilities listed in the next section, and they were made to greatly ease up the flashing process.<p>
+
+<h5>3.1.1.3 Additional tools</h5>
+
+If you don't use the <a href="#BOOTDISK"><b>"Firmware Flashing Bootdisk"</b></a> but decide to make your own, here's a list of what you might want to add:<p>
+
+<b>- The SCSI DOS drivers for your SCSI adapter</b><br>
+Those are needed <b>only</b> if you have an <b>SCSI</b> drive (see section <b>3.1.2</b>) and if your SCSI adapter is not recognised by default with the DOS Bootdisk that you use.<br>
+If you have a common SCSI adapter (Adaptec, etc.) it will probably already be fitted onto the Windows Millenium Bootdisk, so you won't have to perform this step. This is the reason why a Millenium bootdisk is recommanded.<p>
+Otherwise, you have to find the DOS driver that came with your adapter, or download the appropriate one form the internet [GIVE A LINK TO DRIVERHQ].<br>
+However, it is not the purpose of this document or the <a href="http://www.fforum.fr.st">firmware forum</a> to help you find an SCSI driver for your adapter.<p>
+
+<b>- An NTFS DOS driver (read only should be enough)</b><br>
+If you are using Windows NT, 2000 or XP, the partition where you will put the files needed to flash (for reliability, <b>ALWAYS</b> avoid to put those files on the floppy!) might be an NTFS partition. If this is the case, using a standard DOS Bootdisk, you won't be able 
+to access it from the DOS prompt, unless you copy the following utility on it: <a href="http://www.sysinternals.com/ntw2k/freeware/NTFSDOS.shtml">NTFS read only driver for DOS</a>.<br>
+Simply copy the NTFSDOS.EXE your bootdisk, once you've run it manually from AUTOEXEC.BAT, your NTFS partition will be available for reading<br>
+<u>Note</u>: The NTFSDOS.EXE is already included on the <a href="#BOOTDISK"><b>"Firmware Flashing Bootdisk"</b></a><p>
+
+<b>- The IDEDIAG DOS utility</b><br>
+If you have an <b>IDE</b> drive (see section <b>3.1.2</b>), and don't know the <b>IDE configuration</b> of your drive, then you will need the IDEDIAG DOS utility.<br>
+Simply download it from <a href="http://www.penguin.cz/~mhi/ftp/idediag/ided05.zip">here</a> and have a look at section <b>3.3.1.1</b>.<br>
+<u>Note</u>: This tool is included on the <a href="#BOOTDISK"><b>"Firmware Flashing Bootdisk"</b></a>
+
+
+<font color="#80c327"><h5>3.1.2 Getting the firmware - Identifying the type of your drive (IDE, SCSI...)</h5></font>
+
+Before you start to look out for the firmware or even the model ID of your drive, you should know that there exists 
+different physical types of DVD-ROM drives, and you need to know in which category you are.
+If you don't, you won't be able to use the proper flashing tool, or even flash the proper firmware and damage your drive.<p>
+
+In most cases, your DVD-ROM drive is either IDE (also abusively known as ATA or ATAPI) or SCSI.
+But you need to know precisely wether your drive is IDE or SCSI (or something else, like USB, IEEE-1394, ...)<p>
+
+The pros find out about that by looking into a system, but if you're not very familiar with computers, you probably won't be able to
+tell much by looking into it. 
+It is true that generally, SCSI drives don't connect directly to the motherboard, but through an adapter card, and use a different 
+connector but this is not always the case. And IDE drives can connect to an adapter card too.<p>
+
+So, rather than explaining the differences, there is a very efficient way to tell what type of drive you are using using 
+Windows' Device Manager.<p>
+To do that:<br>
+- Open the Control Panel<br>
+- Open the System icon<br>
+- Go to the Hardware tab<br>
+- Open the Device Manager<br> 
+(Note: The way of opening the Device Manager might differ slightly between Windows versions)<p>
+
+Once you are in the Device Manager, you should see your DVD listed under CD-ROM drives (you might need to expand the CD-ROM item)<br>
+To know wether your drive is IDE or SCSI, select to View Devices by Connection in the menu<br>
+Then expand everything you can (the + signs) until you see your DVD unit appear:<br>
+- If the parent device is described as "Primary IDE Channel" or "Secondary IDE Channel", or anything with IDE in it, then your drive is IDE.<br>
+- If the parent device is described as ".... SCSI adapter" or contains the "SCSI" string, then yourt drive is SCSI.<br>
+- If the parent device is described as something else (like USB or IEEE1394), then it's something else, which won't be discussed here...<p>
+
+<u>Common pitfalls:</u><br>
+- Don't mistaken "PCI" with "IDE". Those are COMPLETELY different standard. PCI is used mainly to connect adapter cards over a PCI bus, not DVD drives.<br>
+- Make sure that you select to show "Devices by Connection" and not "Resources by Connection" in the Device Manager.
+
+
+<font color="#80c327"><h5>3.1.3 Getting the firmware - Identifying the brand / model</h5></font>
+
+Once you know the type of your drive, you need to know the exact ID of it.<br>
+Believe me, this information is often overlooked, eventhough it is THE MOST IMPORTANT of all.
+There is absolutely no place for approximation here, as IF YOU DON'T KNOW THE MANUFACTURER AND EXACT MODEL ID OF YOUR DRIVE, YOU RISK TO DESTROY IT!!!
+You have to make sure beforehand that you know the exact model you have and IF YOU HAVE THE SLIGHTEST DOUBT, YOU SHOULD NOT ATTEMPT TO FLASH.<p>
+
+If you haven't assembled your computer yourself, or are unfamiliar with hardware, the most convenient way of 
+getting this informations from within Windows is to use CDVDInfo or DriveInfo, as mentionned in section [SECTION]<p>
+
+Once you have one of these running on your system, and select the proper drive, it will most likely give you:<br>
+- The brand (eg. "Pioneer", "Toshiba", etc...)<br>
+- The model (eg. "DVD-105", "SD1502", ...)<br>
+- The firmware revision (eg. "1.33", "1x22", ...)<p>
+
+For instance, you would see something like this:<p>
+
+<img src="./cdvdinfo1.gif"><p>
+
+
+If you're not completely sure about the information given, write it down, and have a look at the <a href="">firmware site</a>
+If you browse it properly, you should be able to find your brand / model listed here, with the most recent firmware known, and, if you're
+lucky (but most of us are), find a link to download the RPC-1 (or region free) firmware.
+Most of the time, if it was not clear before, once you've had a good look there, you should be able to identify precisely who is the manufacturer of your drive, the model and the firmware revision that you have.<p>
+
+But be aware that the information given by CDVDInfo or DriveInfo only tells you what the manufacturer decided to put in its firmware to identify the drive.
+Some manufacturer give only partial information regarding the model, or, worse, you might not even be able to find out who the manufacturer is.<p>
+
+If this is the case, or if you have doubts, the best way is to extract your drive and look out for any indication (sticker, etc) that might give you this information.
+Unless you have a stolen drive, this information is always written somewhere.
+But beware, ALL DVD-ROM drives look the same, so don't even try to describe it to have someone identify it, because it's impossible.
+You really have to extract it from its bay, and find the information written on (or in) it.<p>
+
+
+<u>Common pitfalls:</u><br>
+- Beware of similar model IDs (eg. Aopen 1640 and Apoen 1640A are different models and use different firmwares). Make sure that you have the complete ID, and if you have doubts about your model ID or the firmware to use, have a look at the
+firmware forum. Somebody probably got as confused as you there, and you can use the search feature of the <a href="">firmware forum</a> to find out what the outcome was.
+- Slot-In DVD's and Tray mechanisms DVD's don't use the same firmware. If your drive is a slot-in and that you downloaded the tray firmware, you probably got the model ID wrong!<br>
+- Similarily, SCSI DVD's and IDE DVD's don't use the same firmware, so if you identified your drive as IDE and are about to download an SCSI firmware, there is obviously something wrong!<p>
+
+Again, USING AN IMPROPER FIRMWARE BECAUSE YOU DON'T KNOW THE MODEL CAN DESTROY YOUR DRIVE!!!
+
+<font color="#80c327"><h5>3.1.4 Getting the firmware - Downloading the proper firmware</h5></font>
+
+Most of you will be interested in downloading the most recent revision of the region free (or RPC-1) firmware for your drive. 
+Don't attempt to download the firmware unless you have completed the steps above.<p>
+
+Now that you know the type (IDE or SCSI) and the Brand/model and firmware revision of your DVD-ROM drive, you can check the firmware site to try to get the
+region free firmware. If you carefully followed the instructions above, this should be fairly easy now.
+You just have to match the proper manufacturer and model ID from the list, and if you did everything well, it should be listed!<p>
+
+As most manufacturers don't use the same model ID for SCSI or IDE, you should also find some confirmation about the type, and the model ID should match perfectly.
+You should also find that the revision for the firmware that you have is also listed as "known firmware".<p>
+
+If everything is OK then you just have to follow the link to download the relevant RPC-1 firmware, and make sure that the firmware does not get corrupted during the
+transfer. If it comes out of a zip archive, make sure that there were no errors during the extraction process.
+NEVER EVER try to use a damaged firmware, or you will render your drive inoperable.<p>
+
+<u>Common pitfalls:</u><br>
+- If the revision of your firmware is not listed on the firmware site, there is a good chance that you misidentified your drive, so check again.<br>
+- If the information given by the firmware regarding the model ID is different from the one you have, then, believe me, it's probably that you didn't get the proper information from the steps above.
+
+
+<font color="#80c327"><h5>3.1.5 Getting the firmware - Downloading the additional files</h5></font>
+
+Usually, the firmware comes into a zip file which also includes the DOS flashing utility, but this is not always the case.
+If the zip file didn't contain ant .EXE or .COM file, you need to download the flashing utility as well. It's usually listed on the same page as the one 
+where you donwnloaded the firmware.<p>
+If you can't find any, then try the manufacturer site, in support or download section.
+Some manufacturers also make Windows flashing utilities, which have a more intuitive interface, so it might be worth checking their site.
+And never forget to download the readme/help file associated with the tool, and read it thoroughly.<br>
+The manufacturer's readme files for the firmware upgrade ALWAYS contains essential information that cannot be given in this guide.<p>
+
+<u>Common pitfalls:</u><br>
+- Make sure that you download the proper flashing tool. The tools are different for SCSI or IDE drives, and might also be different according to the model.
+
+
+
+<font color="#80c327"><h5>3.2 Flashing the firmware - Preparing to flash</h5></font>
+
+OK, so now you have downloaded/extracted the proper firmware, the upgrade/flashing utility and hopefully a readme file as well.<br>
+Either you will use the windows utility (if available) or the DOS utility, in which case you'll also need the DOS bootdisk mentionned in step [SECTION]
+
+
+<font color="#80c327"><h5>3.2.1 Description of the various files</h5></font>
+
+Most of the time, once you have retreived the firmware and flashing tools, you end up with the following files:<p>
+
+- a <b>.hex</b> or <b>.bin</b> file<br>
+  This is the actual firmware file, which will be written in the Flash memory of your drive.<p>
+  
+- a <b>.com</b> or <b>.exe</b> file<br>
+  This is the flashing program. It tells the computer how to write the firmware file in the drive's flash memory.
+  It can be either a DOS program (the most common case, in which case you need to boot in DOS mode) or a Windows (or any other Operating System) program.<p>
+  
+- an optional batch (<b>.bat</b>) file<br>
+  Well most users are lazy and don't want to find out about the parameters they have to use while flashing.
+  So manufacturers often give them satisfaction by producing a batch file that is supposed to magically flash your firmware.
+  I find this is bad practice, because then users don't have the slightest idea about what they're doing and don't learn a thing in the process. 
+  Of course, you can drive a car without knowing anything about mechanics, but then don't complain the day you realize that you don't even know how to change a tire!<p>
+  
+- an optional help file (usually called <b>README.TXT</b>)<br>
+  This is usually where you will find the upgrade information that you need to run the flash utility.
+  Unfortunately, this help file seldomly gives the bare minimum information, which is why such a document had to be produced.<p>
+    
+<u>Common pitfalls:</u><br>
+- If you don't have a batch file, nor a beginning of explaination about the paramaters you should use with the 
+  flashing utility, you won't go very far, so please try to find some explanatory notes.
+
+<font color="#80c327"><h5>3.2.2 OK, I've got all the files. Where should I copy them?</h5></font>
+
+Some people will recommand to copying the files onto the DOS bootdisk (if you have to use the DOS flashing utility), but often there's not 
+enough space on the floppy disk.<br>
+Besides, floppy disk is not as reliable as a hardrive, and if you use a flashing tool that was poorly programmed, it might attempt to flash a corrupted 
+firmware from the floppy, which will certainly destroy your drive!<p>
+
+My recommandation is to copy both all the files in a readily accessible directory off your main Windows drive (e.g. C:\FIRMWARE\ is a 
+good choice). Just create this directoty and put all the files in it.
+You don't have to worry wether it's an NTFS, FAT or FAT32 partition, for we'll sort out this problem in the next step.<p>
+
+If you're making a bootable CD, NEVER EVER copy the firmware files on the CD, and attempt to read them from the drive you are 
+planning to flash. This will most likely render your drive inoperable. Always copy the files on a directory of the harddisk.<p>
+
+<u>Common pitfalls:</u><br>
+- Don't forget to copy the readme file as well. Once you'll be in DOS mode, you might need to be refreshed about the parameters used 
+by the flashing utility
+
+<font color="#80c327"><h4>3.3 Flashing the firmware</h4></font>
+
+Depending on wether you have an IDE or SCSI (or other) drive you can now follow the steps listed in the relevant section below...
+
+
+<font color="#80c327"><h5>3.3.1 Flashing an IDE drive in DOS mode</h5></font>
+
+These steps describe how you should proceed if you downloaded the DOS flasing utility for your drive.<br>
+You will need a Windows DOS bootdisk, as mentionned in section [SECTION] and the firmwware files and utilities have to be available on a partition of your harddisk<br>
+
+<h5>3.3.1.1 - Primary Slave, Secondary Master: finding the IDE configuration</h5>
+
+So you identified that you had an IDE drive. That's good.<br>
+But that's not nearly enough, because you have to find out now wether it's connected as Primary Slave, Secondary Master or Secondary Slave on the IDE bus (I've yet to hear about people
+using their DVD drives as Primary Master)
+I know that this may sound like Chinese to some people (no offense to Chinese people) but unless you don't really care about the possibility of damaging your hardware,
+you have to know what your current master/slave/primary/secondary configuration is.<p>
+
+Besides, if you REALLY read the readme file that came with your firmware, you should have seen some mention about that.<p>
+
+Fortunately, there is a DOS tool that gives you this information in no time.<br>
+This is the IDEDIAG tool that you should have installed on your bootdisk in [SECTION]
+(This tool is also included in the "Firmware Flashing Bootdisk")<br>
+To run it, simply boot in DOS mode (it won't work in a DOS window) and type IDEDIAG at the command prompt.<br> 
+After the program has analysed your configuration, it will display all the IDE devices you have in you system.
+Simply look up for your DVD-ROM in the "MODEL" column (you should see the same model ID as the one reported by CDVDInfo or DriveInfo), and then look at the CHANNEL / DEVICE information.<br>
+Those two columns will tell you wether the IDE channel on which your drive is connected is primary or secondary, and if the drive is in master or slave configuration on this channel.<p>
+
+This will then allow us to indicate the proper parameter to the flashing tool. 
+
+<h5>3.3.1.2 - Setting up the proper configuration</h5>
+
+For this step, you have to have a look at the readme file that came with the firmware to find out the appropriate command line.<br>
+
+It either says something like: "Your drive must be connected as secondary master" or it gives the parameter you should enter after the flash tool command according to the IDE configuration.<p>
+
+- If the readme file doesn't give any parameters or says that your drive has to be connected as secondary master and if your drive is configured as "secondary master"<br>
+Then simply note the command line that you should use (eg: UPG5A 115f133.hex) and go to step 3<p>
+
+- If the readme file doesn't give any parameters or says that your drive has to be connected as secondary master and if your drive is <b>NOT</b> configured as "secondary master"<br>
+Then you have to modify your hardware configuration so that your DVD-ROM drive is secondary master.
+It is not the purpose of this document to explain how to do that. You usually have to modify some jumpers settings at the back of your drives and/or connect the IDE ribbon to the proper port.<br>
+You should look at the documentation that came with your drive as well as the documentation of your motherboard.<p>
+
+Once you have reconfigured your system so that your drive is IDE secondary master, and that you have checked it with IDEDIAG, simply write down the command line you need to use and 
+go to step 3.<p>
+
+- If the readme file gives a parameter that you can use with the flash utility according to your IDE configuration<br>
+Simply write down the parameter corresponding to your configuration.<br>
+For instance, if the readme tells that the first paramater you need to give is 0 for primary master, 1 for primary slave, etc. and if your drive is secondary master, then you will feed 2 as the
+first parameter of the flash command.<p>
+
+[Should discuss batches as well here]
+
+<h5>Step 3 - Flashing</h5>
+This is it. There's no turning back from here, because you are finally going to flash this time.<br>
+To do that:<p>
+
+1/ Boot in DOS mode, using the bootdisk that you got from section [SECTION].<p>
+
+2/ Go to the directory (on your harddrive) where you put firmware and the flash utility.<p>
+
+3/ <b>Check</b> that everything is OK (the cat is not playing with the power cord of your PC for instance) and that you are ready to flash.<p>
+
+4/ Type the command that you've picked up from step 2 (eg: FLASH 2 BIDE00.BIN) and pray<p>
+
+5/ <b>WAIT</b> Flashing a firmware can take many minutes, during which nothing appears on screen, so just wait patiently until the flash program reports something<p>
+
+6/ <b>WHEN</b> the flash utility says that everything is OK and that you can reboot, <b>then</b> reboot.<br>
+You need to reboot for the new firmware to take over.<p>
+
+If something went wrong there, then see the troobleshooting section.
+
+<font color="#80c327"><h5>3.3.2 Flashing an SCSI Drive in DOS mode</h5></font>
+
+[To Be Completed]
+
+<font color="#80c327"><h5>3.3.3 Windows flashing utilities and other drives</h5></font>
+
+USB, PCMCIA, IEE1394, etc.
+
+<font color="#80c327"><h3>4. TROUBLESHOOTING</h3></font>
+
+I have flashed but there's still a region, yada
+
+<font color="#80c327"><h5>4.2 My flashing went bezerk - What do I do?</h5></font>
+
+About 100 times [To Be Completed]
+
+<font color="#80c327"><h3>5. LINKS</h3></font>
+
+[To Be Completed]
+
+<font color="#80c327"><h3>6. GLOSSARY</h3></font>
+
+<a name="BUP">BUP<br>
+CSS<br>
+<a name="FLASH"></a>
+<b>Flash Memory (or Flash ROM)</b><br>
+This is the ROM inside the drive where the firmware is stored.
+But contrary to a standard ROM, it can be rewritten (generally up to 100 times), and unlike RAM memory it doesn't lose its data when the drive is powered off.
+As it is more expensive than ROM or RAM 
+IDE<br>
+IFO<br>
+<a name="PCMCIA"></a>
+PCMCIA<br>
+<a name="RCE"></a>
+RCE<br>
+<a name="RPC"></a>
+RPC<br>
+<b>R</b>egion <b>P</b>rotection <b>C</b>ontent (?)<br>
+- RPC-1<br>
+- RPC-2<br>
+SCSI<br>
+USB<br>
+VOB<br> 
+<p>
+[To Be Completed]<p>
